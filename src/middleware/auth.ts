@@ -18,6 +18,8 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as any;
+    console.log("decoded user", decoded);
+    
     const user = getUserById(decoded.userId);
     
     if (!user) {
@@ -27,6 +29,8 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
     req.user = user;
     next();
   } catch (error) {
+    console.log("error om get user", error);
+    
     return res.status(403).json({ success: false, error: 'Invalid token' });
   }
 };
